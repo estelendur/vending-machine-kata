@@ -1,5 +1,5 @@
 import unittest
-from vendingmachine import VendingMachine
+from vendingmachine import *
 
 class TestVendingMachine(unittest.TestCase):
 
