@@ -39,7 +39,7 @@ class TestVendingMachine(unittest.TestCase):
         self.assertEqual([], self.vend.inserted_coins)
 
     def test_machine_dispenses_cola_when_one_dollar_is_inserted(self):
-        for i in range(1,4):
+        for i in range(0,4):
             self.vend.insert_coin("quarter")
         self.assertEqual("cola", self.vend.dispense("cola"))
         self.assertEqual("0.00", self.vend.total_inserted_coins())
@@ -51,6 +51,13 @@ class TestVendingMachine(unittest.TestCase):
         self.assertEqual("", self.vend.dispense("chips"))
         self.assertEqual("PRICE 0.50", self.vend.display())
         self.assertEqual("0.25", self.vend.display())
+
+    def test_cola_costs_a_dollar(self):
+        for i in range(0, 3):
+            self.vend.insert_coin("quarter")
+        self.assertEqual("", self.vend.dispense("cola"))
+        self.assertEqual("PRICE 1.00", self.vend.display())
+        self.assertEqual("0.75", self.vend.display())
 
 if __name__ == '__main__':
     unittest.main()

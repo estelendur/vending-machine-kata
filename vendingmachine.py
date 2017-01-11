@@ -20,7 +20,10 @@ class VendingMachine:
             return self.total_inserted_coins()
 
     def price(self, product):
-        return "0.50"
+        if (product == "chips"):
+            return "0.50"
+        elif (product == "cola"):
+            return "1.00"
 
     def return_coins(self, coin = "none"):
         if (coin == "none"):
