@@ -17,6 +17,9 @@ class TestVendingMachine(unittest.TestCase):
     def assertDisplayed(self, string):
         self.assertEqual(string, self.vend.display())
 
+    def assertReturned(self, array):
+        self.assertEqual(array, self.vend.returned_coins)
+
     def insertMoney(self, quantity):
         while quantity >= 25:
             self.vend.insert_coin("quarter")
@@ -46,19 +49,19 @@ class TestVendingMachine(unittest.TestCase):
     def test_machine_rejects_penny(self):
           self.vend.insert_coin("penny")
           self.assertDisplayed("INSERT COIN")
-          self.assertEqual(["penny"], self.vend.returned_coins)
+          self.assertReturned(["penny"])
 
     def test_machine_does_not_drop_valid_coins_when_penny_inserted(self):
         self.vend.insert_coin("dime")
         self.vend.insert_coin("penny")
-        self.assertEqual(["penny"], self.vend.returned_coins)
+        self.assertReturned(["penny"])
         self.assertEqual(["dime"], self.vend.inserted_coins)
 
     def test_machine_returns_coins_when_return_button_is_pressed(self):
         self.vend.insert_coin("nickel")
         self.vend.insert_coin("quarter")
         self.vend.return_coins()
-        self.assertEqual(["nickel", "quarter"], self.vend.returned_coins)
+        self.assertReturned(["nickel", "quarter"])
         self.assertEqual([], self.vend.inserted_coins)
 
     def test_machine_dispenses_cola_when_one_dollar_is_inserted(self):
@@ -86,12 +89,12 @@ class TestVendingMachine(unittest.TestCase):
     def test_machine_returns_change_when_extra_money_inserted(self):
         self.insertMoney(75)
         self.assertDispensed("candy")
-        self.assertEqual(["dime"], self.vend.returned_coins)
+        self.assertReturned(["dime"])
 
     def test_machine_returns_40_cents_when_90_given_for_chips(self):
         self.insertMoney(90)
         self.assertDispensed("chips")
-        self.assertEqual(["quarter", "dime", "nickel"], self.vend.returned_coins)
+        self.assertReturned(["quarter", "dime", "nickel"])
 
     def test_machine_displays_soldout_when_sold_out(self):
         self.vend.set_stock("chips", 1)
