@@ -3,10 +3,14 @@ class VendingMachine:
     def __init__(self):
         self.inserted_coins = []
         self.returned_coins = []
+        self.dispensed = False
 
     def display(self):
-        if len(self.inserted_coins) == 0:
-            return 'INSERT COIN'
+        if (self.dispensed):
+            self.dispensed = False
+            return "THANK YOU"
+        elif len(self.inserted_coins) == 0:
+            return "INSERT COIN"
         else:
             return self.total_inserted_coins()
 
@@ -33,3 +37,8 @@ class VendingMachine:
             elif len(item) == 7:
                 total += 0.25
         return '%.2f' % total
+
+    def dispense(self, product):
+        self.inserted_coins = []
+        self.dispensed = True
+        return product
