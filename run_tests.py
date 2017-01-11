@@ -11,23 +11,26 @@ class TestVendingMachine(unittest.TestCase):
     def assertDispensed(self, product):
         self.assertEqual(product, self.vend.dispense(product))
 
+    def assertDisplayed(self, string):
+        self.assertEqual(string, self.vend.display())
+
     def test_display_initially_shows_insert_coins(self):
-        self.assertEqual("INSERT COIN", self.vend.display())
+        self.assertDisplayed("INSERT COIN")
 
     def test_machine_accepts_dime(self):
         self.vend.insert_coin("dime")
-        self.assertEqual("0.10", self.vend.display())
+        self.assertDisplayed("0.10")
 
     def test_machine_shows_total_inserted_money(self):
         self.vend.insert_coin("dime")
         self.vend.insert_coin("nickel")
-        self.assertEqual("0.15", self.vend.display())
+        self.assertDisplayed("0.15")
         self.vend.insert_coin("quarter")
-        self.assertEqual("0.40", self.vend.display())
+        self.assertDisplayed("0.40")
 
     def test_machine_rejects_penny(self):
           self.vend.insert_coin("penny")
-          self.assertEqual("INSERT COIN", self.vend.display())
+          self.assertDisplayed("INSERT COIN")
           self.assertEqual(["penny"], self.vend.returned_coins)
 
     def test_machine_does_not_drop_valid_coins_when_penny_inserted(self):
@@ -48,24 +51,24 @@ class TestVendingMachine(unittest.TestCase):
             self.vend.insert_coin("quarter")
         self.assertDispensed("cola")
         self.assertEqual(0.0, self.vend.total_inserted_coins())
-        self.assertEqual("THANK YOU", self.vend.display())
-        self.assertEqual("INSERT COIN", self.vend.display())
+        self.assertDisplayed("THANK YOU")
+        self.assertDisplayed("INSERT COIN")
 
     def test_machine_displays_price_when_insufficient_money_is_inserted(self):
         self.assertEqual("", self.vend.dispense("chips"))
-        self.assertEqual("PRICE 0.50", self.vend.display())
-        self.assertEqual("INSERT COIN", self.vend.display())
+        self.assertDisplayed("PRICE 0.50")
+        self.assertDisplayed("INSERT COIN")
 
     def test_cola_costs_a_dollar(self):
         for i in range(0, 3):
             self.vend.insert_coin("quarter")
         self.assertEqual("", self.vend.dispense("cola"))
-        self.assertEqual("PRICE 1.00", self.vend.display())
-        self.assertEqual("0.75", self.vend.display())
+        self.assertDisplayed("PRICE 1.00")
+        self.assertDisplayed("0.75")
 
     def test_candy_costs_sixty_five_cents(self):
         self.assertEqual("", self.vend.dispense("candy"))
-        self.assertEqual("PRICE 0.65", self.vend.display())
+        self.assertDisplayed("PRICE 0.65")
 
     def test_machine_returns_change_when_extra_money_inserted(self):
         for i in range(0, 3):
@@ -85,15 +88,15 @@ class TestVendingMachine(unittest.TestCase):
             self.vend.insert_coin(coin)
         self.assertDispensed("chips")
         self.assertEqual("", self.vend.dispense("chips"))
-        self.assertEqual("SOLD OUT", self.vend.display())
-        self.assertEqual("INSERT COIN", self.vend.display())
+        self.assertDisplayed("SOLD OUT")
+        self.assertDisplayed("INSERT COIN")
 
     def test_machine_displays_remaining_money_after_soldout(self):
         self.vend.set_stock("chips", 0)
         self.vend.insert_coin("dime")
         self.assertEqual("", self.vend.dispense("chips"))
-        self.assertEqual("SOLD OUT", self.vend.display())
-        self.assertEqual("0.10", self.vend.display())
+        self.assertDisplayed("SOLD OUT")
+        self.assertDisplayed("0.10")
 
 
 if __name__ == '__main__':
