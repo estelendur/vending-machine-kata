@@ -1,6 +1,7 @@
 import unittest
 from vendingmachine import *
 
+
 class TestVendingMachine(unittest.TestCase):
 
     def setUp(self):
@@ -49,9 +50,9 @@ class TestVendingMachine(unittest.TestCase):
         self.assertDisplayed("0.40")
 
     def test_machine_rejects_penny(self):
-          self.vend.insert_coin("penny")
-          self.assertDisplayed("INSERT COIN")
-          self.assertReturned(["penny"])
+        self.vend.insert_coin("penny")
+        self.assertDisplayed("INSERT COIN")
+        self.assertReturned(["penny"])
 
     def test_machine_does_not_drop_valid_coins_when_penny_inserted(self):
         self.vend.insert_coin("dime")
@@ -116,7 +117,8 @@ class TestVendingMachine(unittest.TestCase):
     def test_machine_requests_exact_change_when_out_of_change(self):
         self.vend.empty_coins()
         self.assertDisplayed("EXACT CHANGE ONLY")
-        self.assertDisplayed("EXACT CHANGE ONLY") # most changes only affect display once
+        # most changes only affect display once; this persists
+        self.assertDisplayed("EXACT CHANGE ONLY")
 
     def test_machine_request_exact_change_when_cannot_make_change(self):
         self.vend.empty_coins()

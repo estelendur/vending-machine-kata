@@ -14,18 +14,18 @@ class VendingMachine:
         self.nickels = 0
 
     def display(self):
-        if (self.dispensed):
+        if self.dispensed:
             self.dispensed = False
-            if (self.soldout):
+            if self.soldout:
                 self.soldout = False
             return "THANK YOU"
         if self.can_make_change():
-            if (self.soldout):
+            if self.soldout:
                 self.soldout = False
-                if (self.dispensed):
+                if self.dispensed:
                     self.dispensed = False
                 return "SOLD OUT"
-            elif (self.total_needed > 0):
+            elif self.total_needed > 0:
                 answer = "PRICE " + ('%.2f' % (self.total_needed / 100.0))
                 self.total_needed = 0
                 return answer
@@ -37,15 +37,15 @@ class VendingMachine:
             return "EXACT CHANGE ONLY"
 
     def price(self, product):
-        if (product == "chips"):
+        if product == "chips":
             return 50
-        elif (product == "cola"):
+        elif product == "cola":
             return 100
-        elif (product == "candy"):
+        elif product == "candy":
             return 65
 
-    def return_coins(self, coin = "none"):
-        if (coin == "none"):
+    def return_coins(self, coin="none"):
+        if coin == "none":
             self.returned_coins = self.inserted_coins
             for coin in self.inserted_coins:
                 self.remove_coin(coin)
@@ -54,7 +54,7 @@ class VendingMachine:
             self.returned_coins.append(coin)
 
     def insert_coin(self, coin):
-        if (len(coin) in [4, 6, 7]):
+        if len(coin) in [4, 6, 7]:
             self.inserted_coins.append(coin)
             self.add_coin(coin)
         else:
@@ -129,17 +129,17 @@ class VendingMachine:
         return (self.dimes > 0) & (self.nickels > 0)
 
     def add_coin(self, coin):
-        if (len(coin) == 4):
+        if len(coin) == 4:
             self.dimes += 1
-        elif (len(coin) == 6):
+        elif len(coin) == 6:
             self.nickels += 1
-        elif (len(coin) == 7):
+        elif len(coin) == 7:
             self.quarters += 1
 
     def remove_coin(self, coin):
-        if (len(coin) == 4):
+        if len(coin) == 4:
             self.dimes -= 1
-        elif (len(coin) == 6):
+        elif len(coin) == 6:
             self.nickels -= 1
-        elif (len(coin) == 7):
+        elif len(coin) == 7:
             self.quarters -= 1
