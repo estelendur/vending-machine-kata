@@ -111,6 +111,11 @@ class TestVendingMachine(unittest.TestCase):
         self.assertDisplayed("SOLD OUT")
         self.assertDisplayed("0.10")
 
+    def test_machine_requests_exact_change_when_out_of_change(self):
+        self.vend.empty_coins()
+        self.assertDisplayed("EXACT CHANGE ONLY")
+        self.assertDisplayed("EXACT CHANGE ONLY") # most changes only affect display once
+
 
 if __name__ == '__main__':
     unittest.main()

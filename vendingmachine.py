@@ -11,24 +11,27 @@ class VendingMachine:
         self.soldout = False
 
     def display(self):
-        if (self.soldout):
-            self.soldout = False
-            if (self.dispensed):
-                self.dispensed = False
-            return "SOLD OUT"
-        elif (self.dispensed):
-            self.dispensed = False
+        if self.can_make_change():
             if (self.soldout):
                 self.soldout = False
-            return "THANK YOU"
-        elif (self.total_needed > 0):
-            answer = "PRICE " + ('%.2f' % (self.total_needed / 100.0))
-            self.total_needed = 0
-            return answer
-        elif len(self.inserted_coins) == 0:
-            return "INSERT COIN"
+                if (self.dispensed):
+                    self.dispensed = False
+                return "SOLD OUT"
+            elif (self.dispensed):
+                self.dispensed = False
+                if (self.soldout):
+                    self.soldout = False
+                return "THANK YOU"
+            elif (self.total_needed > 0):
+                answer = "PRICE " + ('%.2f' % (self.total_needed / 100.0))
+                self.total_needed = 0
+                return answer
+            elif len(self.inserted_coins) == 0:
+                return "INSERT COIN"
+            else:
+                return '%.2f' % (self.total_inserted_coins() / 100.0)
         else:
-            return '%.2f' % (self.total_inserted_coins() / 100.0)
+            return "EXACT CHANGE ONLY"
 
     def price(self, product):
         if (product == "chips"):
@@ -103,3 +106,9 @@ class VendingMachine:
             self.chips_stock = quantity
         elif product == "candy":
             self.candy_stock = quantity
+
+    def empty_coins(self):
+        pass
+
+    def can_make_change(self):
+        return True
