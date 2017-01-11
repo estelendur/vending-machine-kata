@@ -85,6 +85,13 @@ class TestVendingMachine(unittest.TestCase):
         self.assertEqual("SOLD OUT", self.vend.display())
         self.assertEqual("INSERT COIN", self.vend.display())
 
+    def test_machine_displays_remaining_money_after_soldout(self):
+        self.vend.set_stock("chips", 0)
+        self.vend.insert_coin("dime")
+        self.assertEqual("", self.vend.dispense("chips"))
+        self.assertEqual("SOLD OUT", self.vend.display())
+        self.assertEqual("0.10", self.vend.display())
+
 
 if __name__ == '__main__':
     unittest.main()
