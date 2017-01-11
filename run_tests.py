@@ -31,5 +31,12 @@ class TestVendingMachine(unittest.TestCase):
         self.assertEqual(["penny"], self.vend.returned_coins)
         self.assertEqual(["dime"], self.vend.inserted_coins)
 
+    def test_machine_returns_coins_when_return_button_is_pressed(self):
+        self.vend.insert_coin("nickel")
+        self.vend.insert_coin("quarter")
+        self.vend.return_coins()
+        self.assertEqual(["nickel", "quarter"], self.vend.returned_coins)
+        self.assertEqual([], self.vend.inserted_coins)
+
 if __name__ == '__main__':
     unittest.main()
