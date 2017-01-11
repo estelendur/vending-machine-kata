@@ -5,15 +5,26 @@ class VendingMachine:
         self.returned_coins = []
         self.dispensed = False
         self.total_needed = 0
+        self.chips_stock = 0
+        self.candy_stock = 0
+        self.cola_stock = 0
+        self.soldout = False
 
     def display(self):
-        if (self.total_needed > 0):
+        if (self.soldout):
+            self.soldout = False
+            if (self.dispensed):
+                self.dispensed = False
+            return "SOLD OUT"
+        elif (self.dispensed):
+            self.dispensed = False
+            if (self.soldout):
+                self.soldout = False
+            return "THANK YOU"
+        elif (self.total_needed > 0):
             answer = "PRICE " + ('%.2f' % (self.total_needed / 100.0))
             self.total_needed = 0
             return answer
-        if (self.dispensed):
-            self.dispensed = False
-            return "THANK YOU"
         elif len(self.inserted_coins) == 0:
             return "INSERT COIN"
         else:
@@ -62,14 +73,33 @@ class VendingMachine:
         if change >= 5:
             self.returned_coins.append("nickel")
 
-
     def dispense(self, product):
+        if self.get_stock(product) == 0:
+            self.soldout = True
+            return ""
         if self.total_inserted_coins() > self.price(product):
             self.dispense_change(product)
         if self.total_inserted_coins() >= self.price(product):
             self.inserted_coins = []
             self.dispensed = True
+            self.set_stock(product, self.get_stock(product) - 1)
             return product
-        else:
+        elif self.total_inserted_coins() < self.price(product):
             self.total_needed = self.price(product)
-            return ""
+        return ""
+
+    def get_stock(self, product):
+        if product == "cola":
+            return self.cola_stock
+        elif product == "chips":
+            return self.chips_stock
+        elif product == "candy":
+            return self.candy_stock
+
+    def set_stock(self, product, quantity):
+        if product == "cola":
+            self.cola_stock = quantity
+        elif product == "chips":
+            self.chips_stock = quantity
+        elif product == "candy":
+            self.candy_stock = quantity

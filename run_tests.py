@@ -5,6 +5,8 @@ class TestVendingMachine(unittest.TestCase):
 
     def setUp(self):
         self.vend = VendingMachine()
+        for product in ["chips", "candy", "cola"]:
+            self.vend.set_stock(product, 5)
 
     def test_display_initially_shows_insert_coins(self):
         self.assertEqual("INSERT COIN", self.vend.display())
@@ -73,6 +75,16 @@ class TestVendingMachine(unittest.TestCase):
             self.vend.insert_coin(coin)
         self.assertEqual("chips", self.vend.dispense("chips"))
         self.assertEqual(["quarter", "dime", "nickel"], self.vend.returned_coins)
+
+    def test_machine_displays_soldout_when_sold_out(self):
+        self.vend.set_stock("chips", 1)
+        for coin in ["quarter", "quarter"]:
+            self.vend.insert_coin(coin)
+        self.assertEqual("chips", self.vend.dispense("chips"))
+        self.assertEqual("", self.vend.dispense("chips"))
+        self.assertEqual("SOLD OUT", self.vend.display())
+        self.assertEqual("INSERT COIN", self.vend.display())
+
 
 if __name__ == '__main__':
     unittest.main()
