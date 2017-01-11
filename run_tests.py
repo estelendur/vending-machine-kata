@@ -19,5 +19,11 @@ class TestVendingMachine(unittest.TestCase):
         vend.insert_coin("quarter")
         self.assertEqual("0.40", vend.display())
 
+    def test_machine_rejects_penny(self):
+          vend = VendingMachine()
+          vend.insert_coin("penny")
+          self.assertEqual("INSERT COIN", vend.display())
+          self.assertEqual(["penny"], vend.returned_coins)
+
 if __name__ == '__main__':
     unittest.main()
