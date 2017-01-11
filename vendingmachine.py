@@ -8,7 +8,7 @@ class VendingMachine:
 
     def display(self):
         if (self.total_needed > 0):
-            answer = "PRICE " + self.total_needed
+            answer = "PRICE " + ('%.2f' % self.total_needed)
             self.total_needed = 0.0
             return answer
         if (self.dispensed):
@@ -17,15 +17,15 @@ class VendingMachine:
         elif len(self.inserted_coins) == 0:
             return "INSERT COIN"
         else:
-            return self.total_inserted_coins()
+            return '%.2f' % self.total_inserted_coins()
 
     def price(self, product):
         if (product == "chips"):
-            return "0.50"
+            return 0.50
         elif (product == "cola"):
-            return "1.00"
+            return 1.00
         elif (product == "candy"):
-            return "0.65"
+            return 0.65
 
     def return_coins(self, coin = "none"):
         if (coin == "none"):
@@ -49,10 +49,19 @@ class VendingMachine:
                 total += 0.05
             elif len(item) == 7:
                 total += 0.25
-        return '%.2f' % total
+        return total
 
     def dispense_change(self, product):
-        self.returned_coins.append("dime")
+        change = self.total_inserted_coins() - self.price(product)
+        while change >= 0.25:
+            self.returned_coins.append("quarter")
+            change -= 0.25
+        while change >= 0.09:
+            self.returned_coins.append("dime")
+            change -= 0.10
+        if change >= 0.05:
+            self.returned_coins.append("nickel")
+
 
     def dispense(self, product):
         if self.total_inserted_coins() > self.price(product):

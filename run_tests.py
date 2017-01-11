@@ -42,7 +42,7 @@ class TestVendingMachine(unittest.TestCase):
         for i in range(0,4):
             self.vend.insert_coin("quarter")
         self.assertEqual("cola", self.vend.dispense("cola"))
-        self.assertEqual("0.00", self.vend.total_inserted_coins())
+        self.assertEqual(0.0, self.vend.total_inserted_coins())
         self.assertEqual("THANK YOU", self.vend.display())
         self.assertEqual("INSERT COIN", self.vend.display())
 
@@ -67,6 +67,12 @@ class TestVendingMachine(unittest.TestCase):
             self.vend.insert_coin("quarter")
         self.assertEqual("candy", self.vend.dispense("candy"))
         self.assertEqual(["dime"], self.vend.returned_coins)
+
+    def test_machine_returns_40_cents_when_90_given_for_chips(self):
+        for coin in ["quarter", "quarter", "dime", "quarter", "nickel"]:
+            self.vend.insert_coin(coin)
+        self.assertEqual("chips", self.vend.dispense("chips"))
+        self.assertEqual(["quarter", "dime", "nickel"], self.vend.returned_coins)
 
 if __name__ == '__main__':
     unittest.main()
