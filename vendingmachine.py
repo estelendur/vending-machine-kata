@@ -1,31 +1,31 @@
 class VendingMachine:
 
     def __init__(self):
-        self.inserted = []
+        self.inserted_coins = []
         self.returned_coins = []
 
     def display(self):
-        if len(self.inserted) == 0:
+        if len(self.inserted_coins) == 0:
             return 'INSERT COIN'
         else:
-            return self.total_inserted()
+            return self.total_inserted_coins()
 
     def return_coins(self, coin = "none"):
         if (coin == "none"):
-            self.returned_coins = self.inserted
-            self.inserted = []
+            self.returned_coins = self.inserted_coins
+            self.inserted_coins = []
         else:
             self.returned_coins.append(coin)
 
     def insert_coin(self, coin):
         if (len(coin) in [4, 6, 7]):
-            self.inserted.append(coin)
+            self.inserted_coins.append(coin)
         else:
             self.return_coins(coin)
 
-    def total_inserted(self):
+    def total_inserted_coins(self):
         total = 0.0
-        for item in self.inserted:
+        for item in self.inserted_coins:
             if len(item) == 4:
                 total += 0.10
             elif len(item) == 6:

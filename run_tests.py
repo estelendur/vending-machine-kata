@@ -25,5 +25,11 @@ class TestVendingMachine(unittest.TestCase):
           self.assertEqual("INSERT COIN", self.vend.display())
           self.assertEqual(["penny"], self.vend.returned_coins)
 
+    def test_machine_does_not_drop_valid_coins_when_penny_inserted(self):
+        self.vend.insert_coin("dime")
+        self.vend.insert_coin("penny")
+        self.assertEqual(["penny"], self.vend.returned_coins)
+        self.assertEqual(["dime"], self.vend.inserted_coins)
+
 if __name__ == '__main__':
     unittest.main()
