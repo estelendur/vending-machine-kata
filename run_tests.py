@@ -59,5 +59,9 @@ class TestVendingMachine(unittest.TestCase):
         self.assertEqual("PRICE 1.00", self.vend.display())
         self.assertEqual("0.75", self.vend.display())
 
+    def test_candy_costs_sixty_five_cents(self):
+        self.assertEqual("", self.vend.dispense("candy"))
+        self.assertEqual("PRICE 0.65", self.vend.display())
+
 if __name__ == '__main__':
     unittest.main()

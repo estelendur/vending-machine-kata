@@ -24,6 +24,8 @@ class VendingMachine:
             return "0.50"
         elif (product == "cola"):
             return "1.00"
+        elif (product == "candy"):
+            return "0.65"
 
     def return_coins(self, coin = "none"):
         if (coin == "none"):
