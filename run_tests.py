@@ -7,6 +7,8 @@ class TestVendingMachine(unittest.TestCase):
         self.vend = VendingMachine()
         for product in ["chips", "candy", "cola"]:
             self.vend.set_stock(product, 5)
+        self.vend.dimes = 1
+        self.vend.nickels = 1
 
     def assertDispensed(self, product):
         self.assertEqual(product, self.vend.dispense(product))
@@ -115,6 +117,15 @@ class TestVendingMachine(unittest.TestCase):
         self.vend.empty_coins()
         self.assertDisplayed("EXACT CHANGE ONLY")
         self.assertDisplayed("EXACT CHANGE ONLY") # most changes only affect display once
+
+    def test_machine_request_exact_change_when_cannot_make_change(self):
+        self.vend.empty_coins()
+        self.vend.dimes = 1
+        self.assertDisplayed("EXACT CHANGE ONLY")
+        self.vend.nickels = 1
+        self.assertDisplayed("INSERT COIN")
+        self.vend.dimes = 0
+        self.assertDisplayed("EXACT CHANGE ONLY")
 
 
 if __name__ == '__main__':

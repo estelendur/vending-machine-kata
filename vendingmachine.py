@@ -9,6 +9,9 @@ class VendingMachine:
         self.candy_stock = 0
         self.cola_stock = 0
         self.soldout = False
+        self.quarters = 0
+        self.dimes = 0
+        self.nickels = 0
 
     def display(self):
         if self.can_make_change():
@@ -108,7 +111,9 @@ class VendingMachine:
             self.candy_stock = quantity
 
     def empty_coins(self):
-        pass
+        self.quarters = 0
+        self.dimes = 0
+        self.nickels = 0
 
     def can_make_change(self):
-        return True
+        return (self.dimes > 0) & (self.nickels > 0)
