@@ -12,5 +12,12 @@ class TestVendingMachine(unittest.TestCase):
         vend.insert_coin("dime")
         self.assertEqual("0.10", vend.display())
 
+    def test_machine_shows_total_inserted_money(self):
+        vend = VendingMachine()
+        vend.insert_coin("dime")
+        vend.insert_coin("nickel")
+        vend.insert_coin("quarter")
+        self.assertEqual("0.40", vend.display())
+
 if __name__ == '__main__':
     unittest.main()
