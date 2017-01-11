@@ -62,6 +62,12 @@ class TestVendingMachine(unittest.TestCase):
         self.assertEqual("", self.vend.dispense("candy"))
         self.assertEqual("PRICE 0.65", self.vend.display())
 
+    def test_machine_returns_change_when_extra_money_inserted(self):
+        for i in range(0, 3):
+            self.vend.insert_coin("quarter")
+        self.assertEqual("candy", self.vend.dispense("candy"))
+        self.assertEqual(["dime"], self.vend.returned_coins)
+
 
 if __name__ == '__main__':
     unittest.main()
