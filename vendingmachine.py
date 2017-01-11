@@ -4,12 +4,12 @@ class VendingMachine:
         self.inserted_coins = []
         self.returned_coins = []
         self.dispensed = False
-        self.total_needed = 0.0
+        self.total_needed = 0
 
     def display(self):
         if (self.total_needed > 0):
-            answer = "PRICE " + ('%.2f' % self.total_needed)
-            self.total_needed = 0.0
+            answer = "PRICE " + ('%.2f' % (self.total_needed / 100.0))
+            self.total_needed = 0
             return answer
         if (self.dispensed):
             self.dispensed = False
@@ -17,15 +17,15 @@ class VendingMachine:
         elif len(self.inserted_coins) == 0:
             return "INSERT COIN"
         else:
-            return '%.2f' % self.total_inserted_coins()
+            return '%.2f' % (self.total_inserted_coins() / 100.0)
 
     def price(self, product):
         if (product == "chips"):
-            return 0.50
+            return 50
         elif (product == "cola"):
-            return 1.00
+            return 100
         elif (product == "candy"):
-            return 0.65
+            return 65
 
     def return_coins(self, coin = "none"):
         if (coin == "none"):
@@ -41,25 +41,25 @@ class VendingMachine:
             self.return_coins(coin)
 
     def total_inserted_coins(self):
-        total = 0.0
+        total = 0
         for item in self.inserted_coins:
             if len(item) == 4:
-                total += 0.10
+                total += 10
             elif len(item) == 6:
-                total += 0.05
+                total += 5
             elif len(item) == 7:
-                total += 0.25
+                total += 25
         return total
 
     def dispense_change(self, product):
         change = self.total_inserted_coins() - self.price(product)
-        while change >= 0.25:
+        while change >= 25:
             self.returned_coins.append("quarter")
-            change -= 0.25
-        while change >= 0.09:
+            change -= 25
+        while change >= 10:
             self.returned_coins.append("dime")
-            change -= 0.10
-        if change >= 0.05:
+            change -= 10
+        if change >= 5:
             self.returned_coins.append("nickel")
 
 
