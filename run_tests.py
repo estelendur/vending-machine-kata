@@ -7,5 +7,10 @@ class TestVendingMachine(unittest.TestCase):
         vend = VendingMachine()
         self.assertEqual("INSERT COIN", vend.display())
 
+    def test_machine_accepts_dime(self):
+        vend = VendingMachine()
+        vend.insert_coin("dime")
+        self.assertEqual("0.10", vend.display())
+
 if __name__ == '__main__':
     unittest.main()
