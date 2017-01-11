@@ -8,6 +8,9 @@ class TestVendingMachine(unittest.TestCase):
         for product in ["chips", "candy", "cola"]:
             self.vend.set_stock(product, 5)
 
+    def assertDispensed(self, product):
+        self.assertEqual(product, self.vend.dispense(product))
+
     def test_display_initially_shows_insert_coins(self):
         self.assertEqual("INSERT COIN", self.vend.display())
 
@@ -43,7 +46,7 @@ class TestVendingMachine(unittest.TestCase):
     def test_machine_dispenses_cola_when_one_dollar_is_inserted(self):
         for i in range(0,4):
             self.vend.insert_coin("quarter")
-        self.assertEqual("cola", self.vend.dispense("cola"))
+        self.assertDispensed("cola")
         self.assertEqual(0.0, self.vend.total_inserted_coins())
         self.assertEqual("THANK YOU", self.vend.display())
         self.assertEqual("INSERT COIN", self.vend.display())
@@ -67,20 +70,20 @@ class TestVendingMachine(unittest.TestCase):
     def test_machine_returns_change_when_extra_money_inserted(self):
         for i in range(0, 3):
             self.vend.insert_coin("quarter")
-        self.assertEqual("candy", self.vend.dispense("candy"))
+        self.assertDispensed("candy")
         self.assertEqual(["dime"], self.vend.returned_coins)
 
     def test_machine_returns_40_cents_when_90_given_for_chips(self):
         for coin in ["quarter", "quarter", "dime", "quarter", "nickel"]:
             self.vend.insert_coin(coin)
-        self.assertEqual("chips", self.vend.dispense("chips"))
+        self.assertDispensed("chips")
         self.assertEqual(["quarter", "dime", "nickel"], self.vend.returned_coins)
 
     def test_machine_displays_soldout_when_sold_out(self):
         self.vend.set_stock("chips", 1)
         for coin in ["quarter", "quarter"]:
             self.vend.insert_coin(coin)
-        self.assertEqual("chips", self.vend.dispense("chips"))
+        self.assertDispensed("chips")
         self.assertEqual("", self.vend.dispense("chips"))
         self.assertEqual("SOLD OUT", self.vend.display())
         self.assertEqual("INSERT COIN", self.vend.display())
