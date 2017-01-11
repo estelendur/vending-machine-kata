@@ -47,10 +47,9 @@ class TestVendingMachine(unittest.TestCase):
         self.assertEqual("INSERT COIN", self.vend.display())
 
     def test_machine_displays_price_when_insufficient_money_is_inserted(self):
-        self.vend.insert_coin("quarter")
         self.assertEqual("", self.vend.dispense("chips"))
         self.assertEqual("PRICE 0.50", self.vend.display())
-        self.assertEqual("0.25", self.vend.display())
+        self.assertEqual("INSERT COIN", self.vend.display())
 
     def test_cola_costs_a_dollar(self):
         for i in range(0, 3):
@@ -62,6 +61,7 @@ class TestVendingMachine(unittest.TestCase):
     def test_candy_costs_sixty_five_cents(self):
         self.assertEqual("", self.vend.dispense("candy"))
         self.assertEqual("PRICE 0.65", self.vend.display())
+
 
 if __name__ == '__main__':
     unittest.main()
