@@ -68,6 +68,5 @@ class TestVendingMachine(unittest.TestCase):
         self.assertEqual("candy", self.vend.dispense("candy"))
         self.assertEqual(["dime"], self.vend.returned_coins)
 
-
 if __name__ == '__main__':
     unittest.main()

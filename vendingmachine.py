@@ -55,12 +55,9 @@ class VendingMachine:
         self.returned_coins.append("dime")
 
     def dispense(self, product):
-        if self.total_inserted_coins() == self.price(product):
-            self.inserted_coins = []
-            self.dispensed = True
-            return product
-        elif self.total_inserted_coins() > self.price(product):
+        if self.total_inserted_coins() > self.price(product):
             self.dispense_change(product)
+        if self.total_inserted_coins() >= self.price(product):
             self.inserted_coins = []
             self.dispensed = True
             return product
