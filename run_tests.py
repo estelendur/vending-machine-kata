@@ -16,6 +16,7 @@ class TestVendingMachine(unittest.TestCase):
     def test_machine_shows_total_inserted_money(self):
         self.vend.insert_coin("dime")
         self.vend.insert_coin("nickel")
+        self.assertEqual("0.15", self.vend.display())
         self.vend.insert_coin("quarter")
         self.assertEqual("0.40", self.vend.display())
 
