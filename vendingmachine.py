@@ -14,17 +14,17 @@ class VendingMachine:
         self.nickels = 0
 
     def display(self):
+        if (self.dispensed):
+            self.dispensed = False
+            if (self.soldout):
+                self.soldout = False
+            return "THANK YOU"
         if self.can_make_change():
             if (self.soldout):
                 self.soldout = False
                 if (self.dispensed):
                     self.dispensed = False
                 return "SOLD OUT"
-            elif (self.dispensed):
-                self.dispensed = False
-                if (self.soldout):
-                    self.soldout = False
-                return "THANK YOU"
             elif (self.total_needed > 0):
                 answer = "PRICE " + ('%.2f' % (self.total_needed / 100.0))
                 self.total_needed = 0
@@ -47,6 +47,8 @@ class VendingMachine:
     def return_coins(self, coin = "none"):
         if (coin == "none"):
             self.returned_coins = self.inserted_coins
+            for coin in self.inserted_coins:
+                self.remove_coin(coin)
             self.inserted_coins = []
         else:
             self.returned_coins.append(coin)
@@ -54,6 +56,7 @@ class VendingMachine:
     def insert_coin(self, coin):
         if (len(coin) in [4, 6, 7]):
             self.inserted_coins.append(coin)
+            self.add_coin(coin)
         else:
             self.return_coins(coin)
 
@@ -72,14 +75,19 @@ class VendingMachine:
         change = self.total_inserted_coins() - self.price(product)
         while change >= 25:
             self.returned_coins.append("quarter")
+            self.remove_coin("quarter")
             change -= 25
         while change >= 10:
             self.returned_coins.append("dime")
+            self.remove_coin("dime")
             change -= 10
         if change >= 5:
             self.returned_coins.append("nickel")
+            self.remove_coin("nickel")
 
     def dispense(self, product):
+        if self.dispensed:
+            self.dispensed = False
         if self.get_stock(product) == 0:
             self.soldout = True
             return ""
@@ -116,4 +124,22 @@ class VendingMachine:
         self.nickels = 0
 
     def can_make_change(self):
+        # Exhaustive testing suggests that if we have a dime and a nickel,
+        # it is possible to make change for any product given any valid input
         return (self.dimes > 0) & (self.nickels > 0)
+
+    def add_coin(self, coin):
+        if (len(coin) == 4):
+            self.dimes += 1
+        elif (len(coin) == 6):
+            self.nickels += 1
+        elif (len(coin) == 7):
+            self.quarters += 1
+
+    def remove_coin(self, coin):
+        if (len(coin) == 4):
+            self.dimes -= 1
+        elif (len(coin) == 6):
+            self.nickels -= 1
+        elif (len(coin) == 7):
+            self.quarters -= 1

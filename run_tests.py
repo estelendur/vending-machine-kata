@@ -127,6 +127,12 @@ class TestVendingMachine(unittest.TestCase):
         self.vend.dimes = 0
         self.assertDisplayed("EXACT CHANGE ONLY")
 
+    def test_machine_gets_into_state_needing_exact_change(self):
+        self.insertMoney(75)
+        self.assertDispensed("candy")
+        self.assertDisplayed("THANK YOU")
+        self.assertDisplayed("EXACT CHANGE ONLY")
+
 
 if __name__ == '__main__':
     unittest.main()
